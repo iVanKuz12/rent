@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Rent</string>
+    <string name="title_activity_center">CenterActivity</string>
+    <string name="title_home">Home</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="create_account">Don\'t have an account? <b>Sign up.</b></string>
+    <string name="email">Email</string>
+    <string name="next">Next</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="registration">Registration</string>
+</resources>
