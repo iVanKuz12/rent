@@ -6,11 +6,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ApiServer {
+
+    //User
     private static final String BASE = "http://192.168.0.3:8080";
     private static final String USER_GET_ALL = "/user/getAll";
-    private static final String USER_GET_ONE = "/user/getOne";
+    private static final String USER_GET = "/user/getUser";
     private static final String USER_GET_LOG_IN = "/user/getByEmailAndPassword";
-    private static final String USER_SET_ONE = "/user/setOne";
+    private static final String USER_SET = "/user/setUser";
+    private static final String USER_UPDATE = "/user/updateUser";
+    private static final String USER_EMAIL = "/user/email";
+    private static final String USER_PHONE = "/user/phone";
+
+    //Things
     private static final String THING_GET_ALL= "/thing/getAll";
     private static final String THING_GET_ONE= "/thing/getOne";
     private static final String THING_SET_ONE= "/thing/setOne";
@@ -22,27 +29,46 @@ public class ApiServer {
         return new URL(uri.toString()) ;
     }
 
-    public static URL getOneUser(long id) throws MalformedURLException {
-        Uri uri = Uri.parse(BASE + USER_GET_ONE)
+    public static URL getUser(long id) throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + USER_GET)
                 .buildUpon()
                 .appendQueryParameter("id", String.valueOf(id))
                 .build();
         return new URL(uri.toString());
     }
-    public static URL getLogIn(String email, String password) throws MalformedURLException {
-        Uri uri = Uri.parse(BASE + USER_GET_LOG_IN)
+    public static URL getLogIn() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + USER_GET_LOG_IN);
+        return new URL(uri.toString());
+    }
+
+    public static URL setUser() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + USER_SET);
+        return new URL(uri.toString());
+    }
+
+    public static URL updateUser() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + USER_UPDATE);
+        return new URL(uri.toString());
+    }
+
+    public static URL getEmail(String email) throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + USER_EMAIL)
                 .buildUpon()
-                .appendQueryParameter("email" , email)
-                .appendQueryParameter("password", password)
+                .appendQueryParameter("email", email)
                 .build();
         return new URL(uri.toString());
     }
 
-    public static URL setOneUser() throws MalformedURLException {
-        Uri uri = Uri.parse(BASE + USER_SET_ONE);
+    public static URL getPhone(String phone) throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + USER_PHONE)
+                .buildUpon()
+                .appendQueryParameter("phone", phone)
+                .build();
         return new URL(uri.toString());
     }
 
+
+    //Thing
     public static URL getAllThings() throws MalformedURLException {
         Uri uri = Uri.parse(BASE + THING_GET_ALL);
         return new URL(uri.toString()) ;

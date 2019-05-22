@@ -2,7 +2,6 @@ package ru.kuznecov.ivan.rent.activity;
 
 import android.os.Bundle;
 import android.util.Log;
-
 import ru.kuznecov.ivan.rent.R;
 
 
@@ -20,9 +19,6 @@ public class AddThingActivity extends BaseActivity {
         Log.i("Search", "Hi!");
 
     }
-
-
-
 
 
 }

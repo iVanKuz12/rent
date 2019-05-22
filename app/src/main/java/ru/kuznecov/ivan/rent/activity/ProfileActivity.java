@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ru.kuznecov.ivan.rent.R;
@@ -20,8 +21,9 @@ public class ProfileActivity extends BaseActivity {
 
     //Ui
     private TextView texViewName;
-    private TextView texViewphone;
+    private TextView texViewPhone;
     private Button editProfile;
+    private ImageView output;
     //Class
     private Intent intent;
     private Context context;
@@ -37,6 +39,15 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        initUiAndClick();
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+
         context = this;
         dataBaseService = new DataBaseServiceImpl(context);
         user = dataBaseService.readUser();
@@ -45,36 +56,42 @@ public class ProfileActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
+
+
+        initBottomNavigationView(2);
+
+
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-
-        initBottomNavigationView(2);
-        initUiAndClick();
-
-
+    protected void onResume() {
+        super.onResume();
+        user = dataBaseService.readUser();
+        texViewName.setText(user.getName());
+        texViewPhone.setText(user.getPhone());
     }
 
     private void initUiAndClick() {
-        texViewName = (TextView)findViewById(R.id.name);
-        texViewphone = (TextView)findViewById(R.id.phone);
-        editProfile = (Button) findViewById(R.id.btn_edit_profile);
-        //texViewName.setText(user.getName());
-        //texViewphone.setText(user.getPhone());
+        output = findViewById(R.id.output);
+        texViewName = findViewById(R.id.name);
+        texViewPhone = findViewById(R.id.phone);
+        editProfile =  findViewById(R.id.btn_edit_profile);
+        texViewName.setText(user.getName());
+        texViewPhone.setText(user.getPhone());
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEditProfileActivity();
+                Intent intent = EditProfileActivity.newEditProfileActivityIntent(context);
+                startActivity(intent);
+            }
+        });
+        output.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataBaseService.deleteUser();
+                finish();
             }
         });
 
-    }
-
-    private void openEditProfileActivity() {
-        Intent intent = EditProfileActivity.newEditProfileActivityIntent(context);
-        startActivity(intent);
     }
 }

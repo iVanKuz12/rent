@@ -1,7 +1,5 @@
 package ru.kuznecov.ivan.rent.network;
 
-import android.content.Context;
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -13,25 +11,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Connection {
+public class ConnectMain {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     private OkHttpClient client = new OkHttpClient();
-    private ConnectionListener connectionListener;
 
-    public interface ConnectionListener{
-        void onFailure(Call call, IOException e);
-        void onResponse(String resp);
-    }
-
-    public Connection(ConnectionListener connectionListener) {
-        this.connectionListener = connectionListener;
-    }
-
-   /* public void setListener(ConnectionListener connectionListener){
-        this.connectionListener = connectionListener;
-    }*/
 
     public String postRequest(URL url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
@@ -54,23 +39,5 @@ public class Connection {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void getRequestBackGround(URL url){
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (connectionListener != null)
-                    connectionListener.onResponse(response.body().string());
-            }
-        });
     }
 }

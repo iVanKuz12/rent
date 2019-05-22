@@ -21,6 +21,7 @@ public class RentCursorWrapper extends CursorWrapper {
         String phone = getString(getColumnIndex(UserTable.Cols.PHONE));
         String email = getString(getColumnIndex(UserTable.Cols.EMAIL));
         String password = getString(getColumnIndex(UserTable.Cols.PASSWORD));
+        String photo = getString(getColumnIndex(UserTable.Cols.PHOTO));
 
         User user = new User();
         user.setId(id);
@@ -29,6 +30,7 @@ public class RentCursorWrapper extends CursorWrapper {
         user.setPhone(phone);
         user.setEmail(email);
         user.setPassword(password);
+        user.setPhoto(photo);
         return user;
     }
 }

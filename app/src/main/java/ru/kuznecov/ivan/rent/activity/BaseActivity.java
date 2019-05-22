@@ -34,14 +34,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     };
 
+    protected void setChekedItem(int itemNumber){
+        navView.getMenu().getItem(itemNumber).setChecked(true);
+    }
+
     protected void initBottomNavigationView(int itemNumber) {
         navView = findViewById(R.id.bottom_nav_view);
         navView.setItemIconSize(90);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navView.getMenu().getItem(itemNumber).setChecked(true);
-
-
     }
+
+
     private void openActivity(Class clazz){
         intent = new Intent(this, clazz);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -50,3 +54,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 }
+
+
+

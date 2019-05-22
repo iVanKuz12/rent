@@ -23,7 +23,8 @@ public class RentBaseHelper extends SQLiteOpenHelper {
                 UserTable.Cols.DATE + ", " +
                 UserTable.Cols.PHONE +  ", " +
                 UserTable.Cols.EMAIL +  ", " +
-                UserTable.Cols.PASSWORD +
+                UserTable.Cols.PASSWORD + ", " +
+                UserTable.Cols.PHOTO +
                 ")"
         );
     }

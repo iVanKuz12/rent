@@ -29,6 +29,7 @@ public class DataBaseServiceImpl implements DataBaseService {
         values.put(UserTable.Cols.PHONE, user.getPhone());
         values.put(UserTable.Cols.EMAIL, user.getEmail());
         values.put(UserTable.Cols.PASSWORD, user.getPassword());
+        values.put(UserTable.Cols.PHOTO, user.getPhoto());
         return values;
     }
 
@@ -43,6 +44,12 @@ public class DataBaseServiceImpl implements DataBaseService {
                 null
         );
         return new RentCursorWrapper(cursor);
+    }
+
+    @Override
+    public void update(User user) {
+        ContentValues values = getContValUser(user);
+        mDataBase.update(UserTable.NAME, values, null, null);
     }
 
     @Override
@@ -63,5 +70,10 @@ public class DataBaseServiceImpl implements DataBaseService {
         } finally {
             cursor.close();
         }
+    }
+
+    @Override
+    public void deleteUser() {
+        mDataBase.delete(UserTable.NAME, null, null);
     }
 }

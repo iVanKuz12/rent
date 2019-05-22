@@ -28,8 +28,9 @@
                 android:text="IvanKuznecov"/>
 
             <ImageView
+                android:id="@+id/output"
                 style="@style/toolbar_image"
-                android:src="@drawable/ic_more"
+                android:src="@drawable/ic_output"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -66,7 +67,7 @@
     <TextView
         android:id="@+id/name"
         style="@style/minProfile"
-        android:text="Ivan"
+        android:text="*********"
         app:layout_constraintStart_toStartOf="@+id/phone"
         app:layout_constraintEnd_toEndOf="@+id/phone"
         app:layout_constraintBaseline_toBaselineOf="@+id/name_text" />
@@ -82,7 +83,7 @@
     <TextView
         android:id="@+id/phone"
         style="@style/minProfile"
-        android:text="89512693636"
+        android:text="***********"
         app:layout_constraintStart_toEndOf="@+id/phone_text"
         app:layout_constraintEnd_toEndOf="@+id/btn_edit_profile"
         app:layout_constraintBaseline_toBaselineOf="@+id/phone_text"/>
