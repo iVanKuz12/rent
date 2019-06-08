@@ -17,6 +17,15 @@ public class ApiServer {
     private static final String USER_EMAIL = "/user/email";
     private static final String USER_PHONE = "/user/phone";
 
+    //City
+    private static final String CITY_GETALL = "/city/getAll";
+
+    //District
+    private static final String DISTRICT_GETALL = "/district/getAllParentId";
+
+    //Category
+    private static final String CATEGORY_GETALL = "/category/getAll";
+
     //Things
     private static final String THING_GET_ALL= "/thing/getAll";
     private static final String THING_GET_ONE= "/thing/getOne";
@@ -29,10 +38,28 @@ public class ApiServer {
         return new URL(uri.toString()) ;
     }
 
+    public static URL getAllCity() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + CITY_GETALL);
+        return new URL(uri.toString()) ;
+    }
+
+    public static URL getAllCateory() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + CATEGORY_GETALL);
+        return new URL(uri.toString()) ;
+    }
+
     public static URL getUser(long id) throws MalformedURLException {
         Uri uri = Uri.parse(BASE + USER_GET)
                 .buildUpon()
                 .appendQueryParameter("id", String.valueOf(id))
+                .build();
+        return new URL(uri.toString());
+    }
+
+    public static URL getAllDistrictParentId(long districtParentId) throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + DISTRICT_GETALL)
+                .buildUpon()
+                .appendQueryParameter("districtParentId", String.valueOf(districtParentId))
                 .build();
         return new URL(uri.toString());
     }

@@ -31,6 +31,6 @@
         app:layout_constraintTop_toBottomOf="@+id/email_register_input"
         android:text="@string/next"
         android:textColor="@color/white"
-        android:background="@color/orange"/>
+        android:background="@color/orange" />
 
 </android.support.constraint.ConstraintLayout>

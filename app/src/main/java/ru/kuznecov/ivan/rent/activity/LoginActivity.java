@@ -14,13 +14,10 @@ import android.widget.Toast;
 
 import ru.kuznecov.ivan.rent.R;
 import ru.kuznecov.ivan.rent.model.User;
-import ru.kuznecov.ivan.rent.proverka.NetworkRegister;
+import ru.kuznecov.ivan.rent.utils.NetworkRegister;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
-import ru.kuznecov.ivan.rent.service.NetworkService;
 import ru.kuznecov.ivan.rent.service.NetworkServiceImpl;
-
-import static android.widget.Toast.LENGTH_LONG;
 
 public class LoginActivity extends AppCompatActivity implements NetworkServiceImpl.Listener {
 
@@ -53,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements NetworkServiceIm
     @Override
     protected void onStart() {
         super.onStart();
-        mHandler = new Handler();
+        //mHandler = new Handler();
         mNetReg = NetworkRegister.getInstance();
         mNetReg.setLoginListener(new NetworkRegister.LoginListener() {
             @Override

@@ -3,10 +3,15 @@ package ru.kuznecov.ivan.rent.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
+
 import ru.kuznecov.ivan.rent.R;
+import ru.kuznecov.ivan.rent.model.City;
 import ru.kuznecov.ivan.rent.model.User;
-import ru.kuznecov.ivan.rent.proverka.NetworkRegister;
+import ru.kuznecov.ivan.rent.utils.NetworkRegister;
 
 
 public class HomeActivity extends BaseActivity {
@@ -35,11 +40,14 @@ public class HomeActivity extends BaseActivity {
             networkRegister.getLooper();
         }
 
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     @Override

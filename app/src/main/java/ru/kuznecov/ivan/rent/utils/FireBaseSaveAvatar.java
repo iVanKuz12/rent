@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.proverka;
+package ru.kuznecov.ivan.rent.utils;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;

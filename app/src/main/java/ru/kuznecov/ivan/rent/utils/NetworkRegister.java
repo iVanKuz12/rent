@@ -1,16 +1,19 @@
-package ru.kuznecov.ivan.rent.proverka;
+package ru.kuznecov.ivan.rent.utils;
 
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.util.Log;
 
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import ru.kuznecov.ivan.rent.model.Category;
+import ru.kuznecov.ivan.rent.model.City;
+import ru.kuznecov.ivan.rent.model.District;
 import ru.kuznecov.ivan.rent.model.User;
 import ru.kuznecov.ivan.rent.network.ApiServer;
 import ru.kuznecov.ivan.rent.network.ConnectMain;
@@ -21,6 +24,10 @@ public class NetworkRegister<T, V> extends HandlerThread {
     private static NetworkRegister sNetworkRegister;
     private static final String TAG = "NetworkRegister";
     private static final int MESSAGE_DOWNLOAD = 0;
+    private static final int MESSAGE_DOWNLOAD_CITY = 1;
+    private static final int MESSAGE_DOWNLOAD_DISTRICT = 2;
+    private static final int MESSAGE_DOWNLOAD_CATEGORY = 3;
+    private static final int MESSAGE_DOWNLOAD_SUBCATEGORY = 4;
 
     private boolean mHasQuit = false;
     private Handler mRequestHandler;
@@ -28,6 +35,7 @@ public class NetworkRegister<T, V> extends HandlerThread {
     private RegisterListener mRegisterListener;
     private LoginListener mLoginListener;
     private EditProfileListener mEditProfileListener;
+    private AddThingCityListener mAddThingCityListener;
     private ConcurrentMap<T, V> mRequestMap = new ConcurrentHashMap<>();
 
     public static NetworkRegister getInstance(){
@@ -57,6 +65,12 @@ public class NetworkRegister<T, V> extends HandlerThread {
 
     }
 
+    public interface AddThingCityListener {
+        void loadCity(List<City> cities);
+        void loadCategory(List<Category> categories);
+        void loadDistrict(List<District> districts);
+    }
+
     public void setRegisterListener(RegisterListener registerListener) {
         this.mRegisterListener = registerListener;
     }
@@ -69,6 +83,10 @@ public class NetworkRegister<T, V> extends HandlerThread {
         this.mEditProfileListener = editProfileListener;
     }
 
+    public void setAddThingCityListener(AddThingCityListener addThingCityListener){
+        this.mAddThingCityListener = addThingCityListener;
+    }
+
     @Override
     protected void onLooperPrepared() {
         mRequestHandler = new Handler() {
@@ -77,11 +95,73 @@ public class NetworkRegister<T, V> extends HandlerThread {
                 if (msg.what == MESSAGE_DOWNLOAD) {
                     T obj = (T) msg.obj;
                     handlerRequest(obj);
+                }
+                if (msg.what == MESSAGE_DOWNLOAD_CITY) {
+                    T obj = (T) msg.obj;
+                    handlerRequestCity(obj);
 
                 }
+                if (msg.what == MESSAGE_DOWNLOAD_DISTRICT) {
+                    Long obj = (Long) msg.obj;
+                    handlerRequestDistrict(obj);
+                }
+                if (msg.what == MESSAGE_DOWNLOAD_CATEGORY) {
+                    T obj = (T) msg.obj;
+                    handlerRequestCategory(obj);
+                }
+
+
+
             }
         };
     }
+
+    private void handlerRequestCategory(T obj) {
+        if ("loadCategory".equals(obj)){
+            try {
+                List<Category> categories = new GsonConvert<Category>().getList(new ConnectMain().getRequest(ApiServer.getAllCateory()), Category.class);
+                mResponseHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAddThingCityListener.loadCategory(categories);
+                    }
+                });
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void handlerRequestCity(T obj){
+        if ("loadCity".equals(obj)) {
+            try {
+                List<City> cityList = new GsonConvert<City>().getList(new ConnectMain().getRequest(ApiServer.getAllCity()), City.class);
+                mResponseHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAddThingCityListener.loadCity(cityList);
+                    }
+                });
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void handlerRequestDistrict(Long obj){
+                try {
+                    String res = new ConnectMain().getRequest(ApiServer.getAllDistrictParentId(obj));
+                    List<District> districtList = new GsonConvert<District>().getList(res, District.class);
+                    mResponseHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAddThingCityListener.loadDistrict(districtList);
+                        }
+                    });
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+        }
 
     private void handlerRequest(T obj) {
         User user = (User) mRequestMap.get(obj);
@@ -223,6 +303,15 @@ public class NetworkRegister<T, V> extends HandlerThread {
                 e.printStackTrace();
             }
         }
+    }
+    public void queueMsgCity(T obj1) {
+        mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD_CITY, obj1).sendToTarget();
+    }
+    public void queueMsgCategory(T obj1) {
+        mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD_CATEGORY, obj1).sendToTarget();
+    }
+    public void queueMsgDistrict(Long obj1) {
+        mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD_DISTRICT, obj1).sendToTarget();
     }
 
     public void clearQueue() {

@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.proverka;
+package ru.kuznecov.ivan.rent.utils;
 
 import android.os.Handler;
 import android.os.HandlerThread;

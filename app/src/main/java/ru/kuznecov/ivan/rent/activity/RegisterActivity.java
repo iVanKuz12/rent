@@ -14,7 +14,7 @@ import ru.kuznecov.ivan.rent.activity.fragment.EmailFragment;
 import ru.kuznecov.ivan.rent.activity.fragment.NameFragment;
 import ru.kuznecov.ivan.rent.activity.fragment.PhoneFragment;
 import ru.kuznecov.ivan.rent.model.User;
-import ru.kuznecov.ivan.rent.proverka.NetworkRegister;
+import ru.kuznecov.ivan.rent.utils.NetworkRegister;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
 

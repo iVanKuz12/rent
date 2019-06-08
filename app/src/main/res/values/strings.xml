@@ -14,4 +14,7 @@
     <string name="password">Password</string>
     <string name="registration">Registration</string>
     <string name="change_photo">change photo</string>
+    <string name="not_selected">Не выбрано</string>
+    <string name="discription">Discription</string>
+    <string name="price">Price</string>
 </resources>

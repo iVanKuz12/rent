@@ -47,12 +47,12 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
-    <style name="edit_profile_input" parent="edit_profile">
+    <style name="edit_text" parent="edit_profile">
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:layout_marginEnd">20dp</item>
     </style>
 
-    <style name="edit_text_input" parent="edit_profile_input">
+    <style name="edit_text_input" parent="edit_text">
         <item name="android:padding">10dp</item>
         <item name="android:layout_marginTop">40dp</item>
     </style>

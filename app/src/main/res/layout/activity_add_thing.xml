@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AddThingActivity"
+    android:background="@color/white">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/toolbar"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <TextView
+                style="@style/toolbar_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="10dp"
+                android:text="Add thing"/>
+
+            <TextView
+                android:id="@+id/add_thing_post"
+                style="@style/toolbar_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingEnd="18dp"
+                android:paddingStart="18dp"
+                android:textColor="@color/blue"
+                android:text="Post "/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/add_thing_image"
+                android:layout_width="0dp"
+                android:layout_height="230dp"
+                android:layout_margin="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/add_thing_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/add_thing_image"
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/name"
+                app:met_floatingLabelTextColor="@color/colorPrimary"
+                app:met_floatingLabelTextSize="18sp"
+                app:met_helperText="enter thing name"
+                app:met_helperTextColor="@color/blue"
+                app:met_maxCharacters="33"
+                app:met_minCharacters="2"
+                app:met_primaryColor="@color/colorPrimaryDark"
+                app:met_textColor="@color/black"
+                app:met_textColorHint="@color/grey"
+                app:met_underlineColor="@color/colorPrimary" />
+
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_thing_name"
+                app:ms_dropdown_height="180dp"
+                app:ms_hint="@string/not_selected"
+                app:ms_hint_color="@color/grey" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_city"
+                app:ms_dropdown_height="180dp"
+                app:ms_hint="@string/not_selected"
+                app:ms_hint_color="@color/grey" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_categorys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_district"
+                app:ms_dropdown_height="180dp"
+                app:ms_hint="@string/not_selected"
+                app:ms_hint_color="@color/grey" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_sub_categorys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_categorys"
+                app:ms_dropdown_height="180dp"
+                app:ms_hint="@string/not_selected"
+                app:ms_hint_color="@color/grey" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/add_thing_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="4dp"
+                android:hint="@string/price"
+                android:inputType="number"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_sub_categorys"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_price"
+                app:layout_constraintHorizontal_weight="1"
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/price"
+                app:met_floatingLabelTextColor="@color/colorPrimary"
+                app:met_floatingLabelTextSize="18sp"
+                app:met_helperText="enter price"
+                app:met_helperTextColor="@color/blue"
+                app:met_maxCharacters="9"
+                app:met_minCharacters="1"
+                app:met_primaryColor="@color/colorPrimaryDark"
+                app:met_textColor="@color/black"
+                app:met_textColorHint="@color/grey"
+                app:met_underlineColor="@color/colorPrimary" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="19sp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/add_thing_price"
+                app:layout_constraintStart_toEndOf="@id/add_thing_price"
+                app:layout_constraintTop_toTopOf="@+id/add_thing_price"
+                app:ms_dropdown_height="180dp"
+                app:ms_hint="@string/not_selected"
+                app:ms_hint_color="@color/grey" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/add_thing_discription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="30dp"
+                android:hint="@string/discription"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@+id/add_thing_price"
+                app:met_baseColor="@color/black"
+                app:met_errorColor="@color/red"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/discription"
+                app:met_floatingLabelTextColor="@color/colorPrimary"
+                app:met_floatingLabelTextSize="18sp"
+                app:met_helperText="enter discription"
+                app:met_helperTextColor="@color/blue"
+                app:met_maxCharacters="60"
+                app:met_minCharacters="2"
+                app:met_primaryColor="@color/colorPrimaryDark"
+                app:met_textColor="@color/black"
+                app:met_textColorHint="@color/grey"
+                app:met_underlineColor="@color/colorPrimary" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+
+
+
+    <include layout="@layout/bottom_navigation_view"></include>
+
+
+</android.support.constraint.ConstraintLayout>

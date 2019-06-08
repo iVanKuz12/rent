@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import ru.kuznecov.ivan.rent.R;
 import ru.kuznecov.ivan.rent.model.User;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
@@ -22,6 +25,7 @@ public class ProfileActivity extends BaseActivity {
     //Ui
     private TextView texViewName;
     private TextView texViewPhone;
+    private CircleImageView profileImage;
     private Button editProfile;
     private ImageView output;
     //Class
@@ -60,24 +64,22 @@ public class ProfileActivity extends BaseActivity {
 
         initBottomNavigationView(2);
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         user = dataBaseService.readUser();
-        texViewName.setText(user.getName());
-        texViewPhone.setText(user.getPhone());
+        insertData();
     }
 
     private void initUiAndClick() {
+        profileImage = findViewById(R.id.image_profile);
         output = findViewById(R.id.output);
         texViewName = findViewById(R.id.name);
         texViewPhone = findViewById(R.id.phone);
         editProfile =  findViewById(R.id.btn_edit_profile);
-        texViewName.setText(user.getName());
-        texViewPhone.setText(user.getPhone());
+        insertData();
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,5 +95,17 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void insertData() {
+        texViewName.setText(user.getName());
+        texViewPhone.setText(user.getPhone());
+        if (user.getPhoto() != null){
+            Glide
+                    .with(this)
+                    .load(user.getPhoto())
+                    .placeholder(R.drawable.android_picture)
+                    .into(profileImage);
+        }
     }
 }
