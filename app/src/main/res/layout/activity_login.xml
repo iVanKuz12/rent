@@ -67,6 +67,6 @@
         android:gravity="center"
         android:textSize="18sp"
         android:textColor="@color/black"
-        android:background="@drawable/top_border_orange"/>
+        android:background="@drawable/top_border"/>
 
 </android.support.constraint.ConstraintLayout>

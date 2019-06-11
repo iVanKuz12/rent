@@ -26,7 +26,6 @@ import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "EditProfileActivity";
-
     //Ui
     private CircleImageView profileImage;
     private TextView changePhoto;
@@ -170,8 +169,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == makePhoto.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             long id = user.getId();
-            fireBaseSaveAvatar.saveAvatar(id, photoUri);
+            fireBaseSaveAvatar.saveAvatar(photoUri, "users/" + id + "/photo");
             progressBar.setVisibility(View.VISIBLE);
+
         }
     }
 }

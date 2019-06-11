@@ -27,8 +27,8 @@ public class FireBaseSaveAvatar {
     }
 
 
-    public void saveAvatar(long id, Uri photoURI){
-        final StorageReference ref = storageReference.child("users/" + id + "/photo");
+    public void saveAvatar(Uri photoURI, String waySave){
+        final StorageReference ref = storageReference.child(waySave);
         UploadTask uploadTask = ref.putFile(photoURI);
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override

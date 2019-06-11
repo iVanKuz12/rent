@@ -17,4 +17,8 @@
     <string name="not_selected">Не выбрано</string>
     <string name="discription">Discription</string>
     <string name="price">Price</string>
+    <string name="city_not_selected">Город не выбран</string>
+    <string name="district_not_selected">Район не выбран</string>
+    <string name="category_not_selected">Категория не выбрана</string>
+    <string name="sub_category_not_selected">Подкатегория не выбрана</string>
 </resources>

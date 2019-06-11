@@ -26,10 +26,14 @@ public class ApiServer {
     //Category
     private static final String CATEGORY_GETALL = "/category/getAll";
 
+    //SubCategory
+    private static final String SUBCATEGORY_GETALL = "/subCategory/getAllParentId";
+
     //Things
     private static final String THING_GET_ALL= "/thing/getAll";
     private static final String THING_GET_ONE= "/thing/getOne";
-    private static final String THING_SET_ONE= "/thing/setOne";
+    private static final String THING_ADD = "/thing/addThing";
+    private static final String THING_ADD_PHOTO = "/thing/addPhotoThing";
 
 
 
@@ -60,6 +64,13 @@ public class ApiServer {
         Uri uri = Uri.parse(BASE + DISTRICT_GETALL)
                 .buildUpon()
                 .appendQueryParameter("districtParentId", String.valueOf(districtParentId))
+                .build();
+        return new URL(uri.toString());
+    }
+    public static URL getAllSubCategoryParentId(long subCategoryParentId) throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + SUBCATEGORY_GETALL)
+                .buildUpon()
+                .appendQueryParameter("subCategoryParentId", String.valueOf(subCategoryParentId))
                 .build();
         return new URL(uri.toString());
     }
@@ -109,8 +120,13 @@ public class ApiServer {
         return new URL(uri.toString());
     }
 
-    public static URL setOneThing() throws MalformedURLException {
-        Uri uri = Uri.parse(BASE + THING_SET_ONE);
+    public static URL addThing() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + THING_ADD);
+        return new URL(uri.toString());
+    }
+
+    public static URL addPhotoThing() throws MalformedURLException {
+        Uri uri = Uri.parse(BASE + THING_ADD_PHOTO);
         return new URL(uri.toString());
     }
 

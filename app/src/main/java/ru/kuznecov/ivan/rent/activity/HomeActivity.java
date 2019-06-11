@@ -10,6 +10,7 @@ import java.util.List;
 
 import ru.kuznecov.ivan.rent.R;
 import ru.kuznecov.ivan.rent.model.City;
+import ru.kuznecov.ivan.rent.model.Thing;
 import ru.kuznecov.ivan.rent.model.User;
 import ru.kuznecov.ivan.rent.utils.NetworkRegister;
 
@@ -20,7 +21,6 @@ public class HomeActivity extends BaseActivity {
     private NetworkRegister<String, User> networkRegister;
     private Handler mainHandler;
 
-    FirebaseAuth mAuth = FirebaseAuth .getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +40,26 @@ public class HomeActivity extends BaseActivity {
             networkRegister.getLooper();
         }
 
+        homeListener();
 
 
+    }
+
+    private void homeListener() {
+        networkRegister.setHomeListener(new NetworkRegister.HomeListener() {
+            @Override
+            public void getAllThing(List<Thing> list) {
+                for (Thing thing: list){
+                    Log.i(TAG, "looki" + thing);
+                }
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        networkRegister.queueMsgGetAllThing();
 
     }
 

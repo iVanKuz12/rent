@@ -10,7 +10,7 @@ public class Thing {
 
     private int categorId;
 
-    private long renterId;
+    private long userId;
 
     private int cityId;
 
@@ -51,12 +51,12 @@ public class Thing {
         this.categorId = categorId;
     }
 
-    public long getRenterId() {
-        return renterId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setRenterId(long renterId) {
-        this.renterId = renterId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public int getCityId() {
@@ -105,5 +105,21 @@ public class Thing {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Thing{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", categorId=" + categorId +
+                ", userId=" + userId +
+                ", cityId=" + cityId +
+                ", discription='" + discription + '\'' +
+                ", date=" + date +
+                ", photo='" + photo + '\'' +
+                ", status=" + status +
+                ", price='" + price + '\'' +
+                '}';
     }
 }
