@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.utils;
+package ru.kuznecov.ivan.rent.service;
 
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -11,20 +11,21 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import ru.kuznecov.ivan.rent.model.Category;
-import ru.kuznecov.ivan.rent.model.City;
-import ru.kuznecov.ivan.rent.model.District;
-import ru.kuznecov.ivan.rent.model.SubCategory;
-import ru.kuznecov.ivan.rent.model.Thing;
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.model.SingletonData;
+import ru.kuznecov.ivan.rent.pojo.Category;
+import ru.kuznecov.ivan.rent.pojo.City;
+import ru.kuznecov.ivan.rent.pojo.District;
+import ru.kuznecov.ivan.rent.pojo.SubCategory;
+import ru.kuznecov.ivan.rent.pojo.Thing;
+import ru.kuznecov.ivan.rent.pojo.User;
 import ru.kuznecov.ivan.rent.network.ApiServer;
 import ru.kuznecov.ivan.rent.network.ConnectMain;
 import ru.kuznecov.ivan.rent.network.GsonConvert;
 
-public class NetworkRegister<T, V> extends HandlerThread {
+public class Network<T, V> extends HandlerThread {
 
-    private static NetworkRegister sNetworkRegister;
-    private static final String TAG = "NetworkRegister";
+    private static Network sNetwork;
+    private static final String TAG = "Network";
     private static final int MESSAGE_DOWNLOAD = 0;
     private static final int MESSAGE_DOWNLOAD_CITY = 1;
     private static final int MESSAGE_DOWNLOAD_DISTRICT = 2;
@@ -32,6 +33,8 @@ public class NetworkRegister<T, V> extends HandlerThread {
     private static final int MESSAGE_DOWNLOAD_SUBCATEGORY = 4;
     private static final int MESSAGE_ADD_THING = 5;
     private static final int MESSAGE_GET_ALL_THING = 6;
+    private static final int MESSAGE_SINGLETON = 7;
+    private static final int MESSAGE_GET_MY_THING = 8;
 
 
     private boolean mHasQuit = false;
@@ -42,15 +45,17 @@ public class NetworkRegister<T, V> extends HandlerThread {
     private EditProfileListener mEditProfileListener;
     private AddThingListener mAddThingListener;
     private HomeListener mHomeListener;
+    private ProfileListener mProfileListener;
     private ConcurrentMap<T, V> mRequestMap = new ConcurrentHashMap<>();
+    private SingletonData singletonData;
 
-    public static NetworkRegister getInstance(){
-        if (sNetworkRegister == null){
-            sNetworkRegister = new NetworkRegister<String, User>("BackGround");
+    public static Network getInstance(){
+        if (sNetwork == null){
+            sNetwork = new Network<String, User>("BackGround");
         }
-        return sNetworkRegister;
+        return sNetwork;
     }
-    private NetworkRegister(String name) {
+    private Network(String name) {
         super(name);
     }
 
@@ -71,8 +76,8 @@ public class NetworkRegister<T, V> extends HandlerThread {
     }
     public interface EditProfileListener{
         void updateUser(User user);
-
     }
+
     public interface AddThingListener {
         void loadCity(List<City> cities);
         void loadCategory(List<Category> categories);
@@ -80,6 +85,14 @@ public class NetworkRegister<T, V> extends HandlerThread {
         void loadSubCategory(List<SubCategory> subCategories);
         void getIdNewAddThing(long newId);
         void getResultFullAddThing(String res);
+    }
+
+    public interface ProfileListener{
+        void loadMyThing(List<Thing> things);
+    }
+
+    public void setProfileListener(ProfileListener profileListener){
+        this.mProfileListener = profileListener;
     }
 
     public void setRegisterListener(RegisterListener registerListener) {
@@ -134,11 +147,54 @@ public class NetworkRegister<T, V> extends HandlerThread {
                 if (msg.what == MESSAGE_GET_ALL_THING){
                     handlerRequestGetAllThing();
                 }
+                if (msg.what == MESSAGE_SINGLETON){
+                    handlerRequestSingleton();
+                }
+                if (msg.what == MESSAGE_GET_MY_THING){
+                    Long id = (Long) msg.obj;
+                    handlerRequestGetMyThing(id);
+                }
 
 
 
             }
         };
+    }
+
+    private void handlerRequestGetMyThing(Long id) {
+
+        try {
+            List<Thing> things = new GsonConvert<Thing>().getList(new ConnectMain()
+                    .getRequest(ApiServer.getAllThingUserId(id)), Thing.class);
+            mResponseHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mProfileListener.loadMyThing(things);
+                }
+            });
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handlerRequestSingleton() {
+        singletonData = SingletonData.getInstance();
+        try {
+            List<City> cities = new GsonConvert<City>().getList(new ConnectMain()
+                    .getRequest(ApiServer.getAllCity()), City.class);
+            List<District> districts = new GsonConvert<District>().getList(new ConnectMain()
+                    .getRequest(ApiServer.getAllDistrict()), District.class);
+            List<Category> categories = new GsonConvert<Category>().getList(new ConnectMain()
+                    .getRequest(ApiServer.getAllCateory()), Category.class);
+            List<SubCategory> subCategories = new GsonConvert<SubCategory>().getList(new ConnectMain()
+                    .getRequest(ApiServer.getAllSubCategory()), SubCategory.class);
+            singletonData.setCities(cities);
+            singletonData.setDistricts(districts);
+            singletonData.setCategories(categories);
+            singletonData.setSubCategories(subCategories);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handlerRequestGetAllThing() {
@@ -261,7 +317,8 @@ public class NetworkRegister<T, V> extends HandlerThread {
                 return;
 
             try {
-                String response = new GsonConvert<String>().deserialization(new ConnectMain().getRequest(ApiServer.getEmail(email)), String.class);
+                String response = new GsonConvert<String>().deserialization(new ConnectMain()
+                        .getRequest(ApiServer.getEmail(email)), String.class);
                 mResponseHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -394,6 +451,8 @@ public class NetworkRegister<T, V> extends HandlerThread {
             }
         }
     }
+
+
     public void queueMsgCity(T obj1) {
         mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD_CITY, obj1).sendToTarget();
     }
@@ -412,6 +471,14 @@ public class NetworkRegister<T, V> extends HandlerThread {
 
     public void queueMsgGetAllThing(){
         mRequestHandler.obtainMessage(MESSAGE_GET_ALL_THING).sendToTarget();
+    }
+
+    public void queueMsgSingleton(){
+        mRequestHandler.obtainMessage(MESSAGE_SINGLETON).sendToTarget();
+    }
+
+    public void queueMsgGetThingUserId(Long id){
+        mRequestHandler.obtainMessage(MESSAGE_GET_MY_THING, id).sendToTarget();
     }
 
 

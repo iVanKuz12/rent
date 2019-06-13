@@ -10,11 +10,11 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import ru.kuznecov.ivan.rent.R;
-import ru.kuznecov.ivan.rent.activity.fragment.EmailFragment;
-import ru.kuznecov.ivan.rent.activity.fragment.NameFragment;
-import ru.kuznecov.ivan.rent.activity.fragment.PhoneFragment;
-import ru.kuznecov.ivan.rent.model.User;
-import ru.kuznecov.ivan.rent.utils.NetworkRegister;
+import ru.kuznecov.ivan.rent.fragment.EmailFragment;
+import ru.kuznecov.ivan.rent.fragment.NameFragment;
+import ru.kuznecov.ivan.rent.fragment.PhoneFragment;
+import ru.kuznecov.ivan.rent.pojo.User;
+import ru.kuznecov.ivan.rent.service.Network;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
 
@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements EmailFragment
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
     private Handler mHandler;
-    private NetworkRegister<String, User> mNetReg;
+    private Network<String, User> mNetReg;
     private DataBaseService mDataBaseService;
     private Context mContext;
     private User mUser;
@@ -51,11 +51,11 @@ public class RegisterActivity extends AppCompatActivity implements EmailFragment
             initFragment();
 
         mHandler = new Handler();
-        mNetReg = NetworkRegister.getInstance();
+        mNetReg = Network.getInstance();
         mUser = new User();
         mContext = this;
         mDataBaseService = new DataBaseServiceImpl(this);
-        mNetReg.setRegisterListener(new NetworkRegister.RegisterListener() {
+        mNetReg.setRegisterListener(new Network.RegisterListener() {
             @Override
             public void validateEmail(String response) {
                 if (response.equals(OK))

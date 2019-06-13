@@ -17,10 +17,10 @@ import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ru.kuznecov.ivan.rent.R;
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.pojo.User;
+import ru.kuznecov.ivan.rent.service.Network;
 import ru.kuznecov.ivan.rent.utils.FireBaseSaveAvatar;
 import ru.kuznecov.ivan.rent.utils.MakePhoto;
-import ru.kuznecov.ivan.rent.utils.NetworkRegister;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
 
@@ -36,7 +36,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private ImageView btnUpdateUser;
     private ProgressBar progressBar;
     //Class
-    private NetworkRegister<String, User> mNetReg;
+    private Network<String, User> mNetReg;
     private User user;
     private DataBaseService dataBaseService;
     private FireBaseSaveAvatar fireBaseSaveAvatar;
@@ -56,7 +56,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         dataBaseService = new DataBaseServiceImpl(this);
         fireBaseSaveAvatar = new FireBaseSaveAvatar();
         makePhoto = new MakePhoto(this);
-        mNetReg = NetworkRegister.getInstance();
+        mNetReg = Network.getInstance();
         user = dataBaseService.readUser();
 
         initUi();
@@ -81,7 +81,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 mNetReg.queueMsg("update", user);
             }
         });
-        mNetReg.setEditProfileListener(new NetworkRegister.EditProfileListener() {
+        mNetReg.setEditProfileListener(new Network.EditProfileListener() {
             @Override
             public void updateUser(User user) {
                 progressBar.setVisibility(View.INVISIBLE);

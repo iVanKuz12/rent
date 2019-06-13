@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +19,17 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.ArrayList;
 import java.util.List;
 import ru.kuznecov.ivan.rent.R;
-import ru.kuznecov.ivan.rent.model.Category;
-import ru.kuznecov.ivan.rent.model.City;
-import ru.kuznecov.ivan.rent.model.District;
-import ru.kuznecov.ivan.rent.model.SubCategory;
-import ru.kuznecov.ivan.rent.model.Thing;
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.pojo.Category;
+import ru.kuznecov.ivan.rent.pojo.City;
+import ru.kuznecov.ivan.rent.pojo.District;
+import ru.kuznecov.ivan.rent.pojo.SubCategory;
+import ru.kuznecov.ivan.rent.pojo.Thing;
+import ru.kuznecov.ivan.rent.pojo.User;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
 import ru.kuznecov.ivan.rent.utils.FireBaseSaveAvatar;
 import ru.kuznecov.ivan.rent.utils.MakePhoto;
-import ru.kuznecov.ivan.rent.utils.NetworkRegister;
+import ru.kuznecov.ivan.rent.service.Network;
 
 
 public class AddThingActivity extends BaseActivity {
@@ -45,7 +44,7 @@ public class AddThingActivity extends BaseActivity {
     private String district;
     private String subCategory;
 
-    private NetworkRegister networkRegister;
+    private Network network;
     private MakePhoto makePhoto;
     private Thing thing;
     private Uri photoUri;
@@ -175,7 +174,7 @@ public class AddThingActivity extends BaseActivity {
         texViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkRegister.queueMsgAddThing(getThingUi());
+                network.queueMsgAddThing(getThingUi());
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
@@ -186,7 +185,7 @@ public class AddThingActivity extends BaseActivity {
 
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 long idCity = ++id;
-                networkRegister.queueMsgDistrict(idCity);
+                network.queueMsgDistrict(idCity);
             }
         });
 
@@ -202,7 +201,7 @@ public class AddThingActivity extends BaseActivity {
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
                 subCategoryList = null;
                 long idCategory = ++id;
-                networkRegister.queueMsgSubCategory(idCategory);
+                network.queueMsgSubCategory(idCategory);
 
             }
         });
@@ -216,7 +215,7 @@ public class AddThingActivity extends BaseActivity {
     }
 
     private void networkListener() {
-        networkRegister.setAddThingCityListener(new NetworkRegister.AddThingListener() {
+        network.setAddThingCityListener(new Network.AddThingListener() {
             @Override
             public void loadCity(List<City> cities) {
                 setDataCitySpinner(cities);
@@ -259,8 +258,8 @@ public class AddThingActivity extends BaseActivity {
     }
 
     private void loadCityAndCategory() {
-        networkRegister.queueMsgCity("loadCity");
-        networkRegister.queueMsgCategory("loadCategory");
+        network.queueMsgCity("loadCity");
+        network.queueMsgCategory("loadCategory");
     }
 
     private void createPhoto() {
@@ -270,7 +269,7 @@ public class AddThingActivity extends BaseActivity {
     private void initClass() {
         thing = new Thing();
         makePhoto = new MakePhoto(this);
-        networkRegister = NetworkRegister.getInstance();
+        network = Network.getInstance();
         dataBaseService = new DataBaseServiceImpl(this);
         user = dataBaseService.readUser();
         fireBaseSaveAvatar = new FireBaseSaveAvatar();
@@ -282,7 +281,7 @@ public class AddThingActivity extends BaseActivity {
             @Override
             public void getStringPhoto(String photo) {
                 thing.setPhoto(photo);
-                networkRegister.queueMsgAddThing(thing);
+                network.queueMsgAddThing(thing);
             }
         });
     }

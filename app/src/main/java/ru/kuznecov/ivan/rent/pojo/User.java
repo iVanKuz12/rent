@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.model;
+package ru.kuznecov.ivan.rent.pojo;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;

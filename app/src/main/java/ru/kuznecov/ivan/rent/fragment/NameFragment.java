@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.activity.fragment;
+package ru.kuznecov.ivan.rent.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

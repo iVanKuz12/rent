@@ -15,7 +15,7 @@ import ru.kuznecov.ivan.rent.network.GsonConvert;
 
 public class Original<T> extends HandlerThread {
 
-    private static final String TAG = "NetworkRegister";
+    private static final String TAG = "Network";
     private static final int MESSAGE_DOWNLOAD = 0;
 
     private boolean mHasQuit = false;
@@ -45,7 +45,7 @@ public class Original<T> extends HandlerThread {
             public void handleMessage(Message msg) {
                 if (msg.what == MESSAGE_DOWNLOAD){
                     T target =(T) msg.obj;
-                    Log.i(TAG, "NetworkRegister: Get request URL " + mRequestMap.get(target));
+                    Log.i(TAG, "Network: Get request URL " + mRequestMap.get(target));
                     handlerRequestEmail(target);
                 }
             }
@@ -82,7 +82,7 @@ public class Original<T> extends HandlerThread {
     }
 
     public void queueDownloader(T target, String url){
-        Log.i(TAG, "NetworkRegister:" + target + url);
+        Log.i(TAG, "Network:" + target + url);
 
         if (url == null) {
             mRequestMap.remove(target);
@@ -90,7 +90,7 @@ public class Original<T> extends HandlerThread {
             try {
                 mRequestMap.put(target, url);
                 if (mRequestHandler == null)
-                    Log.i(TAG, "NetworkRegister: hundler == null");
+                    Log.i(TAG, "Network: hundler == null");
                 mRequestHandler.obtainMessage(MESSAGE_DOWNLOAD, target)
                         .sendToTarget();
             } catch (Exception e) {

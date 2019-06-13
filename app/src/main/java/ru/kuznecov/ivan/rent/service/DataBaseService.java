@@ -1,6 +1,6 @@
 package ru.kuznecov.ivan.rent.service;
 
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.pojo.User;
 
 public interface DataBaseService {
     void update (User user);

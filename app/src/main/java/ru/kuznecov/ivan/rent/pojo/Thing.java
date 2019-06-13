@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.model;
+package ru.kuznecov.ivan.rent.pojo;
 
 import java.util.Date;
 

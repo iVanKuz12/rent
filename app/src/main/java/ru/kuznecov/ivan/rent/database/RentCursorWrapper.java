@@ -6,7 +6,7 @@ import android.database.CursorWrapper;
 import java.util.Date;
 
 import ru.kuznecov.ivan.rent.database.RentDBScheme.UserTable;
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.pojo.User;
 
 public class RentCursorWrapper extends CursorWrapper {
 

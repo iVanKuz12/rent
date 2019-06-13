@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import ru.kuznecov.ivan.rent.database.RentBaseHelper;
 import ru.kuznecov.ivan.rent.database.RentCursorWrapper;
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.pojo.User;
 
 import static ru.kuznecov.ivan.rent.database.RentDBScheme.*;
 

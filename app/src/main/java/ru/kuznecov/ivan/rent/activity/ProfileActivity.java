@@ -3,7 +3,8 @@ package ru.kuznecov.ivan.rent.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,11 +12,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import ru.kuznecov.ivan.rent.R;
-import ru.kuznecov.ivan.rent.model.User;
+import ru.kuznecov.ivan.rent.adapter.Adapter;
+import ru.kuznecov.ivan.rent.pojo.Thing;
+import ru.kuznecov.ivan.rent.pojo.User;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
+import ru.kuznecov.ivan.rent.service.Network;
 
 
 public class ProfileActivity extends BaseActivity {
@@ -28,11 +34,16 @@ public class ProfileActivity extends BaseActivity {
     private CircleImageView profileImage;
     private Button editProfile;
     private ImageView output;
+    private RecyclerView recyclerView;
     //Class
     private Intent intent;
     private Context context;
     private DataBaseService dataBaseService;
     private User user;
+    private Network network;
+    private Adapter adapter;
+
+    private List<Thing> thingList;
 
 
     public static Intent newProfileActivityIntent(Context context){
@@ -52,18 +63,51 @@ public class ProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        context = this;
-        dataBaseService = new DataBaseServiceImpl(context);
+        initBottomNavigationView(2);
+
+        initClass();
+        validateLogIn();
+        initRecyclerView();
+        loadMyThing();
+        networkListener();
+
+    }
+
+    private void initRecyclerView() {
+        recyclerView = findViewById(R.id.profile_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new Adapter(this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void loadMyThing() {
+        if (user != null)
+            network.queueMsgGetThingUserId(user.getId());
+    }
+
+    private void validateLogIn() {
         user = dataBaseService.readUser();
         if (user == null) {
             intent = LoginActivity.newLoginActivityIntent(context);
             startActivity(intent);
             finish();
         }
+    }
 
+    private void initClass() {
+        context = this;
+        dataBaseService = new DataBaseServiceImpl(context);
+        network = Network.getInstance();
+    }
 
-        initBottomNavigationView(2);
-
+    private void networkListener() {
+        network.setProfileListener(new Network.ProfileListener() {
+            @Override
+            public void loadMyThing(List<Thing> things) {
+                thingList = things;
+                adapter.setItems(thingList);
+            }
+        });
     }
 
     @Override

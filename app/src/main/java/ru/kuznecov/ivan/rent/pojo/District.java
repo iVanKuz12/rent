@@ -1,4 +1,4 @@
-package ru.kuznecov.ivan.rent.model;
+package ru.kuznecov.ivan.rent.pojo;
 
 public class District {
     private long id;

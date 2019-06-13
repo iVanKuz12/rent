@@ -13,13 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.kuznecov.ivan.rent.R;
-import ru.kuznecov.ivan.rent.model.User;
-import ru.kuznecov.ivan.rent.utils.NetworkRegister;
+import ru.kuznecov.ivan.rent.pojo.User;
+import ru.kuznecov.ivan.rent.service.Network;
 import ru.kuznecov.ivan.rent.service.DataBaseService;
 import ru.kuznecov.ivan.rent.service.DataBaseServiceImpl;
-import ru.kuznecov.ivan.rent.service.NetworkServiceImpl;
 
-public class LoginActivity extends AppCompatActivity implements NetworkServiceImpl.Listener {
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
@@ -36,10 +35,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkServiceIm
 //Classes
     private Context context;
     private User user;
-    private NetworkServiceImpl networkService;
     private DataBaseService dataBaseService;
-    private Handler mHandler;
-    private NetworkRegister<String, User> mNetReg;
+    private Network<String, User> mNetReg;
 
     public static Intent newLoginActivityIntent(Context context){
         Intent intent = new Intent(context, LoginActivity.class);
@@ -51,8 +48,8 @@ public class LoginActivity extends AppCompatActivity implements NetworkServiceIm
     protected void onStart() {
         super.onStart();
         //mHandler = new Handler();
-        mNetReg = NetworkRegister.getInstance();
-        mNetReg.setLoginListener(new NetworkRegister.LoginListener() {
+        mNetReg = Network.getInstance();
+        mNetReg.setLoginListener(new Network.LoginListener() {
             @Override
             public void validateLogin(User user) {
                 progressBar.setVisibility(View.INVISIBLE);
@@ -76,7 +73,6 @@ public class LoginActivity extends AppCompatActivity implements NetworkServiceIm
 
 
         context = this;
-        networkService = new NetworkServiceImpl(this);
         dataBaseService = new DataBaseServiceImpl(this);
         user = new User();
 
@@ -116,11 +112,6 @@ public class LoginActivity extends AppCompatActivity implements NetworkServiceIm
             }
         });
 
-
-    }
-
-    @Override
-    public void getResult(String response) {
 
     }
 }
