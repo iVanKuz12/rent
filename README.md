@@ -5,3 +5,5 @@
 ![ProfileActivity](https://user-images.githubusercontent.com/36233896/61234610-2a3c9300-a73c-11e9-882e-e06660ec895a.jpg)
 
 ![LoginActivity](https://user-images.githubusercontent.com/36233896/61234829-bfd82280-a73c-11e9-9e57-57eb36f67ace.jpg)
+
+![AddThing](https://user-images.githubusercontent.com/36233896/61234942-02016400-a73d-11e9-8104-ad55737af614.jpg)
